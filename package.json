@@ -1,0 +1,39 @@
+{
+  "name": "ts-option",
+  "version": "1.0.0",
+  "description": "Scala like Option type for TypeScript",
+  "author": "shogogg <shogo@studiofly.net>",
+  "license": "MIT",
+  "main": "option.js",
+  "typings": "option.d.ts",
+  "keywords": [
+    "Option",
+    "Optional",
+    "Maybe",
+    "TypeScript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shogogg/ts-option.git"
+  },
+  "scripts": {
+    "typings": "typings install",
+    "build": "tsc",
+    "clean": "rimraf *.js *.d.ts",
+    "clean:all": "rimraf *.js *.d.ts node_modules typings",
+    "pretest": "npm run build",
+    "pretest:watch": "npm run build",
+    "test": "mocha --reporter spec --compilers ts:espower-typescript/guess",
+    "test:watch": "mocha --reporter spec --compilers ts:espower-typescript/guess -w",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "espower-typescript": "^5.0.1",
+    "mocha": "^2.5.3",
+    "power-assert": "^1.4.1",
+    "rimraf": "^2.5.3",
+    "sinon": "^1.17.4",
+    "typescript": "^1.8.10",
+    "typings": "^1.3.1"
+  }
+}
