@@ -78,6 +78,27 @@ Returns true if the option's value is empty, false otherwise.
 #### `option<A>(...).map<B>(f: (_: A) => B): Option<B>`
 Builds a new option by applying a function to all elements of this option.
 
+#### `option<A>(...).match<B>(m: {some: (_: A) => B, none: () => B}): B`
+Scala's "Pattern Match" like signature. Returns the value that the function `some` returns if the option is non-empty,
+otherwise returns the value that function `none` returns.
+
+```
+let s: Option<number> = some(9);
+let n: Option<number> = none;
+
+let a: number = s.match({
+  some: x => x * 9,
+  none: () => -1,
+});
+let b: number = n.match({
+  some: x => x * 9,
+  none: () => -1,
+});
+
+console.log(a); // 81
+console.log(b); // -1
+```
+
 #### `option<A>(...).nonEmpty: boolean`
 Returns true if the option is an instance of `Some`, false otherwise.
 

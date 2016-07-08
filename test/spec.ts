@@ -127,6 +127,24 @@ describe("Some", () => {
     });
   });
 
+  describe("#match", () => {
+    it("should returns the value that function `some` returns.", () => {
+      let ret = some(2).match({
+        some: x => x * 2,
+        none: () => 0,
+      });
+      assert(ret === 4);
+    });
+    it("should NOT call the `none` function.", () => {
+      let spy = sinon.spy();
+      some("foo").match({
+        some: x => x.length,
+        none: spy,
+      });
+      assert(spy.callCount === 0);
+    });
+  });
+
   describe("#nonEmpty", () => {
     it("should be true.", () => assert(some("option").nonEmpty === true));
   });
@@ -248,6 +266,25 @@ describe("None", () => {
       let stub = sinon.stub().returns(1234);
       none.map(stub);
       assert(stub.callCount === 0);
+    });
+  });
+
+  describe("#match", () => {
+    it("should returns the value that function `none` returns.", () => {
+      let option: Option<number> = none;
+      let ret = option.match({
+        some: x => x * 2,
+        none: () => 1234,
+      });
+      assert(ret === 1234);
+    });
+    it("should NOT call the `none` function.", () => {
+      let spy = sinon.spy();
+      none.match({
+        some: spy,
+        none: () => "MOMOIRO CLOVER Z",
+      });
+      assert(spy.callCount === 0);
     });
   });
 

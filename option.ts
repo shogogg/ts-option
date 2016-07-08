@@ -68,6 +68,11 @@ export abstract class Option<A> {
   abstract map<B>(f: (_: A) => B): Option<B>;
 
   /**
+   * Pattern match signature.
+   */
+  abstract match<B>(matcher: Matcher<A, B>): B;
+
+  /**
    * Returns true if the option's value is non-empty, false otherwise.
    */
   nonEmpty: boolean;
@@ -87,6 +92,11 @@ export abstract class Option<A> {
    */
   toArray: Array<A>;
 
+}
+
+export interface Matcher<A, B> {
+  some: (_: A) => B;
+  none: () => B;
 }
 
 export class Some<A> extends Option<A> {
@@ -130,6 +140,9 @@ export class Some<A> extends Option<A> {
   }
   map<B>(f: (_: A) => B): Option<B> {
     return some(f(this._value));
+  }
+  match<B>(matcher: Matcher<A, B>): B {
+    return matcher.some(this._value);
   }
   get nonEmpty(): boolean {
     return true;
@@ -181,6 +194,9 @@ export class None extends Option<any> {
   }
   map<B>(f: (_: any) => B): Option<B> {
     return this as Option<B>;
+  }
+  match<B>(matcher: Matcher<any, B>): B {
+    return matcher.none();
   }
   get nonEmpty(): boolean {
     return false;
