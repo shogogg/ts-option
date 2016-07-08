@@ -54,7 +54,7 @@ Returns the option if it is non-empty and applying the predicate p to the option
 #### `option<A>(...).flatMap<B>(f: (_: A) => Option<B>): Option<B>`
 Returns the result of applying f to the option's value if the option is non-empty, otherwise returns `None`.
 
-#### `option<A>(...).fold<B>(ifEmpty: () => B, f: (_: A) => B): B`
+#### `option<A>(...).fold<B>(ifEmpty: () => B)(f: (_: A) => B): B`
 Returns the result of applying f to the option's value if the option is non-empty, otherwise returns `ifEmpty` value.
 
 #### `option<A>(...).forAll(p: (_: A) => boolean): boolean`

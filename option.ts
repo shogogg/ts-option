@@ -30,7 +30,7 @@ export abstract class Option<A> {
    * Returns the result of applying f to the option's value if the option is non-empty.
    * Otherwise, evaluates expression ifEmpty.
    */
-  abstract fold<B>(ifEmpty: () => B, f: (_: A) => B): B;
+  abstract fold<B>(ifEmpty: () => B): (f: (_: A) => B) => B;
 
   /**
    * Tests whether a predicate holds for all elements of the option.
@@ -107,8 +107,8 @@ export class Some<A> extends Option<A> {
   flatMap<B>(f: (_: A) => Option<B>): Option<B> {
     return f(this._value);
   }
-  fold<B>(ifEmpty: () => B, f: (_: A) => B): B {
-    return f(this._value);
+  fold<B>(ifEmpty: () => B): (f: (_: A) => B) => B {
+    return (f: (_: A) => B) => f(this._value);
   }
   forAll(p: (_: A) => boolean): boolean {
     return p(this._value);
@@ -158,8 +158,8 @@ export class None extends Option<any> {
   flatMap<B>(f: (_: any) => Option<B>): Option<B> {
     return this as Option<B>;
   }
-  fold<B>(ifEmpty: () => B, f: (_: any) => B): B {
-    return ifEmpty();
+  fold<B>(ifEmpty: () => B): (f: (_: any) => B) => B {
+    return () => ifEmpty();
   }
   forAll(p: (_: any) => boolean): boolean {
     return false;

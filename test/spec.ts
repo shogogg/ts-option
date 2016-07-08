@@ -75,8 +75,8 @@ describe("Some", () => {
 
   describe("#fold", () => {
     it("should returns the value that given function returns.", () => {
-      assert(some(2).fold(() => -1, x => x * 3) === 6);
-      assert(some(5).fold(() => -1, x => x * 4) === 20);
+      assert(some(2).fold(() => -1)(x => x * 3) === 6);
+      assert(some(5).fold(() => -1)(x => x * 4) === 20);
     });
   });
 
@@ -194,12 +194,12 @@ describe("None", () => {
   describe("#fold", () => {
     it("should return `ifEmpty`.", () => {
       let stub = sinon.stub().returns("foo");
-      assert(none.fold(stub, () => "bar") === "foo");
+      assert(none.fold(stub)(() => "bar") === "foo");
       assert(stub.callCount === 1);
     });
     it("should NOT calls the function.", () => {
       let stub = sinon.stub().returns("bar");
-      none.fold(() => "foo", stub);
+      none.fold(() => "foo")(stub);
       assert(stub.called === false);
     });
   });
