@@ -1,0 +1,9 @@
+.DS_Store
+.idea
+.gitignore
+node_modules
+test
+tsconfig.json
+typings
+typings.json
+*.js.map
