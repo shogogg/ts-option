@@ -4,43 +4,43 @@
  * This software is released under the MIA License.
  * http://opensource.org/licenses/mit-license.php
  */
-export interface Option<A> {
+export abstract class Option<A> {
 
   /**
    * Returns true if the option is non-empty and the predicate p returns true when applied to the option's value.
    */
-  exists(p: (_: A) => boolean): boolean;
+  abstract exists(p: (_: A) => boolean): boolean;
 
   /**
    * Returns the option if it is non-empty and applying the predicate p to the option's value returns true.
    */
-  filter(p: (_: A) => boolean): Option<A>;
+  abstract filter(p: (_: A) => boolean): Option<A>;
 
   /**
    * Returns the option if it is non-empty and applying the predicate p to the option's value returns false.
    */
-  filterNot(p: (_: A) => boolean): Option<A>;
+  abstract filterNot(p: (_: A) => boolean): Option<A>;
 
   /**
    * Returns the result of applying f to the option's value if the option is non-empty.
    */
-  flatMap<B>(f: (_: A) => Option<B>): Option<B>;
+  abstract flatMap<B>(f: (_: A) => Option<B>): Option<B>;
 
   /**
    * Returns the result of applying f to the option's value if the option is non-empty.
    * Otherwise, evaluates expression ifEmpty.
    */
-  fold<B>(ifEmpty: () => B, f: (_: A) => B): B;
+  abstract fold<B>(ifEmpty: () => B, f: (_: A) => B): B;
 
   /**
    * Tests whether a predicate holds for all elements of the option.
    */
-  forAll(p: (_: A) => boolean): boolean;
+  abstract forAll(p: (_: A) => boolean): boolean;
 
   /**
    * Apply the given procedure f to the option's value, if it is non-empty.
    */
-  forEach(f: (_: A) => any): void;
+  abstract forEach(f: (_: A) => any): void;
 
   /**
    * Returns the option's value if the option is non-empty, otherwise throws an error.
@@ -50,7 +50,7 @@ export interface Option<A> {
   /**
    * Returns the option's value if the option is non-empty, otherwise return the result of evaluating default.
    */
-  getOrElse(defaultValue: () => A): A;
+  abstract getOrElse(defaultValue: () => A): A;
 
   /**
    * Returns true if the option's value is non-empty, false otherwise.
@@ -65,7 +65,7 @@ export interface Option<A> {
   /**
    * Builds a new option by applying a function to all elements of this option.
    */
-  map<B>(f: (_: A) => B): Option<B>;
+  abstract map<B>(f: (_: A) => B): Option<B>;
 
   /**
    * Returns true if the option's value is non-empty, false otherwise.
@@ -75,7 +75,7 @@ export interface Option<A> {
   /**
    * Returns the option itself if it is non-empty, otherwise return the result of evaluating alternative.
    */
-  orElse(alternative: () => Option<A>): Option<A>;
+  abstract orElse(alternative: () => Option<A>): Option<A>;
 
   /**
    * Returns the option's value if it is non-empty, or null if it is empty.
@@ -89,9 +89,10 @@ export interface Option<A> {
 
 }
 
-export class Some<A> implements Option<A> {
+export class Some<A> extends Option<A> {
   private _value: A;
   constructor(value: A) {
+    super();
     this._value = value;
   }
   exists(p: (_: A) => boolean): boolean {
@@ -144,7 +145,7 @@ export class Some<A> implements Option<A> {
   }
 }
 
-export class None implements Option<any> {
+export class None extends Option<any> {
   exists(p: (_: any) => boolean): boolean {
     return false;
   }

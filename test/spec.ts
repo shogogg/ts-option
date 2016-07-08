@@ -42,6 +42,10 @@ describe("none", () => {
 
 describe("Some", () => {
 
+  it("should be instance of `Option`.", () => {
+    assert(some("foo") instanceof Option === true);
+  });
+
   describe("#exists", () => {
     it("should returns true when the predicate returns true.", () => assert(some(1).exists(a => a === 1) === true));
     it("should returns false when the predicate returns false.", () => assert(some(1).exists(a => a !== 1) === false));
@@ -148,6 +152,10 @@ describe("Some", () => {
 });
 
 describe("None", () => {
+
+  it("should be instance of `Option`.", () => {
+    assert(none instanceof Option === true);
+  });
 
   describe("#exists", () => {
     it("should returns false.", () => {
