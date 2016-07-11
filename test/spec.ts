@@ -6,7 +6,7 @@
  */
 import * as assert from "power-assert";
 import * as sinon from "sinon";
-import {none, option, some, None, Option, Some} from "../option";
+import {none, option, some, None, Option, Some} from "../index";
 
 describe("option", () => {
 

@@ -1,11 +1,11 @@
 {
   "name": "ts-option",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Scala like Option type for TypeScript",
   "author": "shogogg <shogo@studiofly.net>",
   "license": "MIT",
-  "main": "option.js",
-  "typings": "option.d.ts",
+  "main": "index.js",
+  "typings": "index.d.ts",
   "keywords": [
     "Option",
     "Optional",
@@ -24,8 +24,7 @@
     "pretest": "npm run build",
     "pretest:watch": "npm run build",
     "test": "mocha --reporter spec --compilers ts:espower-typescript/guess",
-    "test:watch": "mocha --reporter spec --compilers ts:espower-typescript/guess -w",
-    "prepublish": "npm run build"
+    "test:watch": "mocha --reporter spec --compilers ts:espower-typescript/guess -w"
   },
   "devDependencies": {
     "espower-typescript": "^5.0.1",
