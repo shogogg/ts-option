@@ -11,7 +11,7 @@ $ npm install --save ts-option
 ### Usage
 #### TypeScript
 ```
-import {Option, option, some, none} from "ts-deferred";
+import {Option, option, some, none} from "ts-option";
 
 let a: Option<number> = option(1);    // Some(1)
 let c: Option<number> = some(2);      // Some(2)
@@ -21,7 +21,7 @@ let d: Option<number> = none;         // None
 
 #### JavaScript (ES2015/ES6)
 ```
-import {Option, option, some, none} from "ts-deferred";
+import {Option, option, some, none} from "ts-option";
 
 let a = option(1);    // Some(1)
 let c = some(2);      // Some(2)
