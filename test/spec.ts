@@ -106,7 +106,10 @@ describe("Some", () => {
   });
 
   describe("#getOrElse", () => {
-    it("should returns the option's value.", () => assert(some(123).getOrElse(() => 456) === 123));
+    it("should returns the option's value.", () => {
+      assert(some(123).getOrElse(() => 456) === 123);
+      assert(some(123).getOrElse(456) === 123);
+    });
   });
 
   describe("#isDefined", () => {
@@ -249,7 +252,10 @@ describe("None", () => {
   });
 
   describe("#getOrElse", () => {
-    it("should returns `defaultValue`.", () => assert(none.getOrElse(() => 123) === 123));
+    it("should returns `defaultValue`.", () => {
+      assert(none.getOrElse(() => 123) === 123);
+      assert(none.getOrElse(123) === 123);
+    });
   });
 
   describe("#isDefined", () => {
