@@ -170,6 +170,25 @@ describe("Some", () => {
     });
   });
 
+  describe("#forComprehension", () => {
+    it("should flat map every method except the last, which is mapped", () => {
+      const nestedOptions = some({
+        anOption: some({
+          anotherOption: some({
+            finalValue: true
+          })
+        })
+      });
+
+      const result = nestedOptions.forComprehension(
+        obj => obj.anOption,
+        anOption => anOption.anotherOption,
+        anotherOption => anotherOption.finalValue
+      );
+
+      assert(result.get === true);
+    });
+  });
 });
 
 describe("None", () => {
@@ -313,5 +332,24 @@ describe("None", () => {
       assert(xs.length === 0);
     });
   });
+
+  describe("#forComprehension", () => {
+    it("should return none", () => {
+      const nestedOptions = some({
+        anOption: some({
+          anotherOption: none
+        })
+      });
+
+      const result = nestedOptions.forComprehension(
+        obj => obj.anOption,
+        anOption => anOption.anotherOption,
+        anotherOption => anotherOption.finalValue
+      );
+
+      assert(result === none);
+    });
+  });
+
 
 });
