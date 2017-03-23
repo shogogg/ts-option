@@ -50,7 +50,7 @@ export abstract class Option<A> {
   /**
    * Returns the option's value if the option is non-empty, otherwise return the result of evaluating default.
    */
-  abstract getOrElse(defaultValue: () => A): A;
+  abstract getOrElse(defaultValue: A | (() => A)): A;
 
   /**
    * Returns true if the option's value is non-empty, false otherwise.
@@ -129,7 +129,7 @@ export class Some<A> extends Option<A> {
   get get(): A {
     return this._value;
   }
-  getOrElse(defaultValue: () => any): A {
+  getOrElse(defaultValue: A | (() => A)): A {
     return this._value;
   }
   get isDefined(): boolean {
@@ -183,8 +183,8 @@ export class None extends Option<any> {
   get get(): any {
     throw new Error('No such element.');
   }
-  getOrElse(defaultValue: () => any): any {
-    return defaultValue();
+  getOrElse(defaultValue: any | (() => any)): any {
+    return typeof defaultValue === "function" ? defaultValue() : defaultValue;
   }
   get isDefined(): boolean {
     return false;
