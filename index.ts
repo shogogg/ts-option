@@ -92,7 +92,13 @@ export abstract class Option<A> {
    */
   toArray: Array<A>;
 
+  /**
+   * Performs a for-comprehension like flatMap and map operation using the given functions
+   */
+  abstract forComprehension(...fns: ((x: any) => Option<any>)[]): Option<any>;
+
 }
+
 
 export interface Matcher<A, B> {
   some: (_: A) => B;
@@ -156,6 +162,15 @@ export class Some<A> extends Option<A> {
   get toArray(): Array<A> {
     return [this._value];
   }
+  forComprehension(...fns: ((x: any) => Option<any>)[]): Option<any> {
+    let result: Option<any> = this;
+
+    for (let i = 0; i < fns.length - 1; i++) {
+      result = result.flatMap(fns[i]);
+    }
+
+    return result.map(fns[fns.length -1]);
+  }
 }
 
 export class None extends Option<any> {
@@ -209,6 +224,9 @@ export class None extends Option<any> {
   }
   get toArray(): Array<any> {
     return [];
+  }
+  forComprehension<B>(...fns: ((x: any) => Option<B>)[]): Option<B> {
+    return this;
   }
 }
 
