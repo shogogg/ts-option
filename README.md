@@ -66,7 +66,7 @@ Apply the given procedure f to the option's value if it is non-empty, otherwise 
 #### `option<A>(...).get: A`
 Returns the option's value if the option is non-empty, otherwise throws an error.
 
-#### `option<A>(...).getOrElse(defaultValue: () => A): A`
+#### `option<A>(...).getOrElse(defaultValue: A | (() => A)): A`
 Returns the option's value if the option is non-empty, otherwise return the result of evaluating default.
 
 #### `option<A>(...).isDefined: boolean`
@@ -110,6 +110,35 @@ Returns the option's value if it is non-empty, or null if it is empty.
 
 #### `option<A>(...).toArray: Array<A>`
 Converts the option to an array.
+
+#### `option<A>(...).forComprehension(...fns: (a: any) => Option<any>): Option<any>`
+Performs a for-comprehension *like* operation using the given list of functions. For example:
+
+```
+const nestedOptions = some({
+  anOption: some({
+    anotherOption: some({
+      finalValue: true
+    })
+  })
+});
+
+const result = nestedOptions.forComprehension(
+  obj => obj.anOption,
+  anOption => anOption.anotherOption,
+  anotherOption => anotherOption.finalValue
+);
+
+// result = option(true)
+```
+
+As with the Scala for comprehension the result of each function is flat-mapped with the next, except for the last, which is mapped.
+
+Please note that there are currently some limitations:
+
+1) Filtering must be done manually
+2) There is no shared scope between functions
+3) The result type is always `Option<any>`
 
 ### License
 MIT
