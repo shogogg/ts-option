@@ -31,13 +31,14 @@ let d = none;         // None
 
 
 ### API
-#### `option<A>(valiue: A): Option<A>`
+#### `option<A>(value?: A): Option<A>`
 Create an `Option` instance from a value.
 It returns `Some<A>` when the value is not null/undefined, otherwise returns `None`.
 
 #### `some<A>(value: A): Some<A>`
 Create an `Some` instance from a value.
 It returns `Some<A>` even if the value is null or undefined.
+If strict null checks are enabled in your tsconfig.json, undefined and null won't be permitted here.
 
 #### `none: None`
 The `None` type singleton object.
