@@ -31,7 +31,7 @@ let d = none;         // None
 
 
 ### API
-#### `option<A>(valiue: A): Option<A>`
+#### `option<A>(value: A): Option<A>`
 Create an `Option` instance from a value.
 It returns `Some<A>` when the value is not null/undefined, otherwise returns `None`.
 
