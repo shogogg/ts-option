@@ -190,7 +190,7 @@ export class None extends Option<any> {
     return () => ifEmpty();
   }
   forAll(p: (_: any) => boolean): boolean {
-    return false;
+    return true;
   }
   forEach(f: (_: any) => any): void {
     // do nothing.
