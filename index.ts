@@ -177,7 +177,7 @@ export class Some<A> extends Option<A> {
     return result.map(fns[fns.length -1]);
   }
   toString(): string {
-    return 'Some('+this._value+')'
+    return 'Some('+this._value+')';
   }
 }
 
