@@ -237,7 +237,7 @@ export class None extends Option<any> {
     return this;
   }
   toString(): string {
-    return 'None'
+    return 'None';
   }
 }
 
