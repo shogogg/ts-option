@@ -97,6 +97,11 @@ export abstract class Option<A> {
    */
   abstract forComprehension(...fns: ((x: any) => Option<any>)[]): Option<any>;
 
+  /**
+   * Returns a string representation
+   */
+  abstract toString(): string;
+
 }
 
 
@@ -171,6 +176,9 @@ export class Some<A> extends Option<A> {
 
     return result.map(fns[fns.length -1]);
   }
+  toString(): string {
+    return 'Some('+this._value+')'
+  }
 }
 
 export class None extends Option<any> {
@@ -227,6 +235,9 @@ export class None extends Option<any> {
   }
   forComprehension<B>(...fns: ((x: any) => Option<B>)[]): Option<B> {
     return this;
+  }
+  toString(): string {
+    return 'None'
   }
 }
 
