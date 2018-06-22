@@ -289,5 +289,5 @@ export function some<A>(value: A): Some<A> {
 export const none: None = new None;
 
 export function option<A>(value?: A): Option<A> {
-    return value === null || value === undefined ? none : some(value);
+    return value === null || typeof value === 'undefined' ? none : some(value);
 }
