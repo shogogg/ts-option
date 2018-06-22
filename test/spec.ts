@@ -252,7 +252,7 @@ describe("None", () => {
     });
 
     describe("#forAll", () => {
-        it("should returns false.", () => assert(none.forAll(() => true) === false));
+        it("should returns true.", () => assert(none.forAll(() => false) === true));
         it("should NOT calls the predicate.", () => {
             let stub = sinon.stub().returns(true);
             none.forAll(stub);
