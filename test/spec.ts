@@ -189,6 +189,13 @@ describe("Some", () => {
       assert(result.get === true);
     });
   });
+
+  describe("#toString", () => {
+    it("should return the 'Some(2016)' string", () => assert(some(2016).toString() === 'Some(2016)'));
+    it("should return the 'Some(false)' string", () => assert(some(false).toString() === 'Some(false)'));
+    it("should return the 'Some(toto)' string", () => assert(some('toto').toString() === 'Some(toto)'));
+  });
+
 });
 
 describe("None", () => {
@@ -351,5 +358,8 @@ describe("None", () => {
     });
   });
 
+  describe("#toString", () => {
+    it("should return 'None'", () => assert(none.toString() === 'None'));
+  });
 
 });
