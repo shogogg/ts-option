@@ -6,7 +6,9 @@
         "noImplicitAny": true,
         "removeComments": false,
         "moduleResolution": "node",
-        "sourceMap": false
+        "sourceMap": false,
+        "strict": true,
+        "strictPropertyInitialization": false
     },
     "files": [
         "index.ts"
