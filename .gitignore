@@ -1,7 +1,9 @@
 .DS_Store
 .idea
+.eslintcache
 node_modules
 typings
 *.js
 *.js.map
 *.d.ts
+!jest.config.js

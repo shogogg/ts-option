@@ -1,0 +1,39 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "jest": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "extends": [
+    "standard"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "arrow-parens": "off",
+    "camelcase": "off",
+    "dot-notation": "off",
+    "indent": "off",
+    "no-unused-vars": "off",
+    "no-useless-constructor": "off",
+    "padded-blocks": [
+      "error", {
+        "blocks": "never",
+        "classes": "always",
+        "switches": "never"
+      }
+    ],
+    "space-before-function-paren": ["error", "always"],
+    "@typescript-eslint/camelcase": "error",
+    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-useless-constructor": "error"
+  }
+}

@@ -9,8 +9,5 @@
         "sourceMap": false,
         "strict": true,
         "strictPropertyInitialization": false
-    },
-    "files": [
-        "index.ts"
-    ]
+    }
 }
