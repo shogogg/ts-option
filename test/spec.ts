@@ -270,7 +270,7 @@ describe("None", () => {
 
     describe("#get", () => {
         it("should throws an error.", () => {
-            assert.throws(() => none.get, error => {
+            assert.throws(() => none.get, (error: Error) => {
                 assert(error.message === "No such element.");
                 return true;
             });
