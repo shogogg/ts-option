@@ -22,17 +22,15 @@
         "clean:all": "rimraf *.js *.d.ts node_modules",
         "pretest": "npm run build",
         "pretest:watch": "npm run build",
-        "test": "mocha --reporter spec --compilers ts:espower-typescript/guess",
-        "test:watch": "mocha --reporter spec --compilers ts:espower-typescript/guess -w"
+        "test": "jest",
+        "test:watch": "jest --watch"
     },
     "devDependencies": {
-        "@types/mocha": "^2.2.31",
-        "@types/sinon": "^1.16.29",
+        "@types/jest": "^24.0.11",
         "espower-typescript": "^9.0.0",
-        "mocha": "^2.5.3",
-        "power-assert": "^1.6.0",
+        "jest": "^24.7.1",
         "rimraf": "^2.5.3",
-        "sinon": "^1.17.4",
+        "ts-jest": "^24.0.2",
         "typescript": "^2.9.2"
     }
 }
