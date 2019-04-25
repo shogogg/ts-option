@@ -4,154 +4,199 @@
  * This software is released under the MIA License.
  * http://opensource.org/licenses/mit-license.php
  */
-export abstract class Option<A> {
+export interface Matcher<A, B> {
+  some: (_: A) => B
+  none: () => B
+}
+
+export interface OptionLike<A> {
 
   /**
    * Returns true if the option is non-empty and the predicate p returns true when applied to the option's value.
    */
-  abstract exists (p: (_: A) => boolean): boolean;
+  exists (p: (_: A) => boolean): boolean
 
   /**
    * Returns the option if it is non-empty and applying the predicate p to the option's value returns true.
    */
-  abstract filter (p: (_: A) => boolean): Option<A>;
+  filter (p: (_: A) => boolean): Option<A>
 
   /**
    * Returns the option if it is non-empty and applying the predicate p to the option's value returns false.
    */
-  abstract filterNot (p: (_: A) => boolean): Option<A>;
+  filterNot (p: (_: A) => boolean): Option<A>
 
   /**
    * Returns the result of applying f to the option's value if the option is non-empty.
    */
-  abstract flatMap<B> (f: (_: A) => Option<B>): Option<B>;
+  flatMap<B> (f: (_: A) => Option<B>): Option<B>
 
   /**
    * Returns the result of applying f to the option's value if the option is non-empty.
    * Otherwise, evaluates expression ifEmpty.
    */
-  abstract fold<B> (ifEmpty: () => B): (f: (_: A) => B) => B;
+  fold<B> (ifEmpty: () => B): (f: (_: A) => B) => B
 
   /**
    * Tests whether a predicate holds for all elements of the option.
    */
-  abstract forAll (p: (_: A) => boolean): boolean;
-
-  /**
-   * Apply the given procedure f to the option's value, if it is non-empty.
-   */
-  abstract forEach (f: (_: A) => any): void;
-
-  /**
-   * Returns the option's value if the option is non-empty, otherwise throws an error.
-   */
-  get: A
-
-  /**
-   * Returns the option's value if the option is non-empty, otherwise return the result of evaluating default.
-   */
-  abstract getOrElse (defaultValue: A | (() => A)): A;
-
-  /**
-   * Returns true if the option's value is non-empty, false otherwise.
-   */
-  isDefined: boolean
-
-  /**
-   * Returns true if the option's value is empty, false otherwise.
-   */
-  isEmpty: boolean
-
-  /**
-   * Builds a new option by applying a function to all elements of this option.
-   */
-  abstract map<B> (f: (_: A) => B): Option<B>;
-
-  /**
-   * Pattern match signature.
-   */
-  abstract match<B> (matcher: Matcher<A, B>): B;
-
-  /**
-   * Returns true if the option's value is non-empty, false otherwise.
-   */
-  nonEmpty: boolean
-
-  /**
-   * Returns the option itself if it is non-empty, otherwise return the result of evaluating alternative.
-   */
-  abstract orElse (alternative: () => Option<A>): Option<A>;
-
-  /**
-   * Returns the option's value if it is non-empty, or null if it is empty.
-   */
-  orNull: A
-
-  /**
-   * Converts the option to an array.
-   */
-  toArray: Array<A>
+  forAll (p: (_: A) => boolean): boolean
 
   /**
    * Performs a for-comprehension like flatMap and map operation using the given functions
    */
-  abstract forComprehension (...fns: ((x: any) => Option<any>)[]): Option<any>;
+  forComprehension (...fns: ((x: any) => Option<any>)[]): Option<any>
+
+  /**
+   * Apply the given procedure f to the option's value, if it is non-empty.
+   */
+  forEach (f: (_: A) => void): void
+
+  /**
+   * Returns the option's value if the option is non-empty, otherwise throws an error.
+   */
+  readonly get: A
+
+  /**
+   * Returns the option's value if the option is non-empty, otherwise return the result of evaluating defaultValue.
+   */
+  getOrElse (defaultValue: () => A): A
+
+  /**
+   * Returns the option's value if the option is non-empty, otherwise return defaultValue.
+   */
+  getOrElseValue (defaultValue: A): A
+
+  /**
+   * Returns true if the option's value is non-empty, false otherwise.
+   */
+  readonly isDefined: boolean
+
+  /**
+   * Returns true if the option's value is empty, false otherwise.
+   */
+  readonly isEmpty: boolean
+
+  /**
+   * Builds a new option by applying a function to all elements of this option.
+   */
+  map<B> (f: (_: A) => B): Option<B>
+
+  /**
+   * Pattern match signature.
+   */
+  match<B> (matcher: Matcher<A, B>): B
+
+  /**
+   * Returns true if the option's value is non-empty, false otherwise.
+   */
+  readonly nonEmpty: boolean
+
+  /**
+   * Returns the option itself if it is non-empty, otherwise return the result of evaluating alternative.
+   */
+  orElse (alternative: () => Option<A>): Option<A>
+
+  /**
+   * Returns the option itself if it is non-empty, otherwise return the alternative.
+   */
+  orElseValue (alternative: Option<A>): Option<A>
+
+  /**
+   * Returns the option's value if it is non-empty, or null if it is empty.
+   */
+  readonly orNull: A | null
+
+  /**
+   * Converts the option to an array.
+   */
+  readonly toArray: A[]
 
   /**
    * Returns a string representation
    */
-  abstract toString (): string;
+  toString (): string
 
 }
 
-export interface Matcher<A, B> {
-  some: (_: A) => B;
-  none: () => B;
+export abstract class Option<A> implements OptionLike<A> {
+
+  abstract exists (p: (_: A) => boolean): boolean
+  abstract filter (p: (_: A) => boolean): Option<A>
+  abstract filterNot (p: (_: A) => boolean): Option<A>
+  abstract flatMap<B> (f: (_: A) => Option<B>): Option<B>
+  abstract fold<B> (ifEmpty: () => B): (f: (_: A) => B) => B
+  abstract forAll (p: (_: A) => boolean): boolean
+  abstract forComprehension (...fns: ((x: any) => Option<any>)[]): Option<any>
+  abstract forEach (f: (_: A) => void): void
+  readonly get: A
+  abstract getOrElse (defaultValue: () => A): A
+  abstract getOrElseValue (defaultValue: A): A
+  readonly isDefined: boolean
+  readonly isEmpty: boolean
+  abstract map<B> (f: (_: A) => B): Option<B>
+  abstract match<B> (matcher: Matcher<A, B>): B
+  readonly nonEmpty: boolean
+  abstract orElse (alternative: () => Option<A>): Option<A>
+  abstract orElseValue (alternative: Option<A>): Option<A>
+  readonly orNull: A | null
+  readonly toArray: A[]
+  abstract toString (): string
+
 }
 
-export class Some<A> extends Option<A> {
+export class Some<A> extends Option<A> implements OptionLike<A> {
 
-  private _value: A
-
-  constructor (value: A) {
+  constructor (private value: A) {
     super()
-    this._value = value
   }
 
   exists (p: (_: A) => boolean): boolean {
-    return p(this._value)
+    return p(this.value)
   }
 
   filter (p: (_: A) => boolean): Option<A> {
-    return p(this._value) ? this : none
+    return p(this.value) ? this : none
   }
 
   filterNot (p: (_: A) => boolean): Option<A> {
-    return p(this._value) ? none : this
+    return p(this.value) ? none : this
   }
 
   flatMap<B> (f: (_: A) => Option<B>): Option<B> {
-    return f(this._value)
+    return f(this.value)
   }
 
-  fold<B> (): (f: (_: A) => B) => B {
-    return (f: (_: A) => B) => f(this._value)
+  fold<B> (/* ifEmpty: () => B) */): (f: (_: A) => B) => B {
+    return f => f(this.value)
   }
 
   forAll (p: (_: A) => boolean): boolean {
-    return p(this._value)
+    return p(this.value)
   }
 
-  forEach (f: (_: A) => any): void {
-    return f(this._value)
+  forComprehension (...fns: ((x: any) => Option<any>)[]): Option<any> {
+    let result: Option<any> = this
+    for (let i = 0; i < fns.length - 1; ++i) {
+      result = result.flatMap<any>(fns[i])
+    }
+    return result.map(fns[fns.length - 1])
+  }
+
+  forEach (f: (_: A) => void): void {
+    return f(this.value)
   }
 
   get get (): A {
-    return this._value
+    return this.value
   }
 
-  getOrElse (): A {
-    return this._value
+  getOrElse (/* defaultValue: () => A) */): A {
+    return this.value
+  }
+
+  getOrElseValue (/* defaultValue: A */): A {
+    return this.value
   }
 
   get isDefined (): boolean {
@@ -163,81 +208,83 @@ export class Some<A> extends Option<A> {
   }
 
   map<B> (f: (_: A) => B): Option<B> {
-    return some(f(this._value))
+    return some(f(this.value))
   }
 
   match<B> (matcher: Matcher<A, B>): B {
-    return matcher.some(this._value)
+    return matcher.some(this.value)
   }
 
   get nonEmpty (): boolean {
     return true
   }
 
-  orElse (): Option<A> {
+  orElse (/* alternative: () => Option<A> */): Option<A> {
     return this
   }
 
-  get orNull (): A {
-    return this._value
+  orElseValue (/* alternative: Option<A> */): Option<A> {
+    return this
   }
 
-  get toArray (): Array<A> {
-    return [this._value]
+  get orNull (): A | null {
+    return this.value
   }
 
-  forComprehension (...fns: ((x: any) => Option<any>)[]): Option<any> {
-    let result: Option<any> = this
-
-    for (let i = 0; i < fns.length - 1; i++) {
-      result = result.flatMap(fns[i])
-    }
-
-    return result.map(fns[fns.length - 1])
+  get toArray (): A[] {
+    return [this.value]
   }
 
   toString (): string {
-    return 'Some(' + this._value + ')'
+    return 'Some(' + this.value + ')'
   }
 
 }
 
-export class None extends Option<any> {
+export class None<A> extends Option<A> implements OptionLike<A> {
 
-  exists (): boolean {
+  exists (/* p: (_: A) => boolean */): boolean {
     return false
   }
 
-  filter (): Option<any> {
+  filter (/* p: (_: A) => boolean */): Option<A> {
     return this
   }
 
-  filterNot (): Option<any> {
+  filterNot (/* p: (_: A) => boolean */): Option<A> {
     return this
   }
 
-  flatMap<B> (): Option<B> {
-    return this as Option<B>
+  flatMap<B> (/* f: (_: A) => Option<B> */): Option<B> {
+    return none
   }
 
-  fold<B> (ifEmpty: () => B): () => B {
+  fold<B> (ifEmpty: () => B): (f: (_: A) => B) => B {
     return () => ifEmpty()
   }
 
-  forAll (): boolean {
+  forAll (/* p: (_: A) => boolean */): boolean {
     return true
+  }
+
+  forComprehension (/* ...fns: ((x: any) => Option<any>)[] */): Option<any> {
+    return none
   }
 
   forEach (): void {
     // do nothing.
   }
 
-  get get (): any {
+  get get (): A {
     throw new Error('No such element.')
   }
 
-  getOrElse (defaultValue: any | (() => any)): any {
-    return typeof defaultValue === 'function' ? defaultValue() : defaultValue
+  getOrElse (defaultValue: () => A): A {
+    return defaultValue()
+  }
+
+  getOrElseValue (defaultValue: A): A {
+    return defaultValue
   }
 
   get isDefined (): boolean {
@@ -248,11 +295,11 @@ export class None extends Option<any> {
     return true
   }
 
-  map<B> (): Option<B> {
-    return this as Option<B>
+  map<B> (/* f: (_: A) => B */): Option<B> {
+    return none
   }
 
-  match<B> (matcher: Matcher<any, B>): B {
+  match<B> (matcher: Matcher<A, B>): B {
     return matcher.none()
   }
 
@@ -260,20 +307,20 @@ export class None extends Option<any> {
     return false
   }
 
-  orElse (alternative: () => Option<any>): Option<any> {
+  orElse (alternative: () => Option<A>): Option<A> {
     return alternative()
   }
 
-  get orNull (): any {
+  orElseValue (alternative: Option<A>): Option<A> {
+    return alternative
+  }
+
+  get orNull (): A | null {
     return null
   }
 
-  get toArray (): Array<any> {
+  get toArray (): Array<A> {
     return []
-  }
-
-  forComprehension<B> (): Option<B> {
-    return this
   }
 
   toString (): string {
@@ -283,10 +330,10 @@ export class None extends Option<any> {
 }
 
 export function some<A> (value: A): Option<A> {
-  return new Some<A>(value)
+  return new Some(value)
 }
 
-export const none: Option<any> = new None()
+export const none: Option<never> = new None()
 
 export function option<A> (value?: A | null): Option<A> {
   return value === null || typeof value === 'undefined' ? none : some(value)
