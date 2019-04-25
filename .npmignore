@@ -1,9 +1,11 @@
 .DS_Store
 .idea
+.editorconfig
+.eslintcache
+.eslintrc.json
 .gitignore
+jest.config.js
 node_modules
 test
 tsconfig.json
-typings
-typings.json
 *.js.map

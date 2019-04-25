@@ -1,6 +1,6 @@
 {
   "name": "ts-option",
-  "version": "1.1.5",
+  "version": "2.0.0",
   "description": "Scala like Option type for TypeScript",
   "author": "shogogg <shogo@studiofly.net>",
   "license": "MIT",
