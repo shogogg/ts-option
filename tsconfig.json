@@ -1,13 +1,14 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "declaration": true,
-        "noImplicitAny": true,
-        "removeComments": false,
-        "moduleResolution": "node",
-        "sourceMap": false,
-        "strict": true,
-        "strictPropertyInitialization": false
-    }
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es2015"],
+    "module": "commonjs",
+    "declaration": true,
+    "noImplicitAny": true,
+    "removeComments": false,
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "strict": true,
+    "strictPropertyInitialization": false
+  }
 }
