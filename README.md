@@ -31,16 +31,16 @@ let d = none;         // None
 
 
 ### API
-#### `option<A>(value?: A): Option<A>`
+#### `option<A>(value?: A | null): Option<A>`
 Create an `Option` instance from a value.
 It returns `Some<A>` when the value is not null/undefined, otherwise returns `None`.
 
-#### `some<A>(value: A): Some<A>`
+#### `some<A>(value: A): Option<A>`
 Create an `Some` instance from a value.
 It returns `Some<A>` even if the value is null or undefined.
 If strict null checks are enabled in your tsconfig.json, undefined and null won't be permitted here.
 
-#### `none: None`
+#### `none: Option<never>`
 The `None` type singleton object.
 
 #### `option<A>(...).exists(p: (_: A) => boolean): boolean`
@@ -61,25 +61,57 @@ Returns the result of applying f to the option's value if the option is non-empt
 #### `option<A>(...).forAll(p: (_: A) => boolean): boolean`
 Tests whether a predicate holds for all elements of the option.
 
+#### `option<A>(...).forComprehension(...fns: (a: any) => Option<any>): Option<any>`
+Performs a for-comprehension *like* operation using the given list of functions. For example:
+
+```
+const nestedOptions = some({
+  anOption: some({
+    anotherOption: some({
+      finalValue: true
+    })
+  })
+});
+
+const result = nestedOptions.forComprehension(
+  obj => obj.anOption,
+  anOption => anOption.anotherOption,
+  anotherOption => anotherOption.finalValue
+);
+
+console.log(`${result}`) // Some(true)
+```
+
+As with the Scala for comprehension the result of each function is flat-mapped with the next, except for the last, which is mapped.
+
+Please note that there are currently some limitations:
+
+1) Filtering must be done manually
+2) There is no shared scope between functions
+3) The result type is always `Option<any>`
+
 #### `option<A>(...).forEach(f: (_: A) => any): void`
 Apply the given procedure f to the option's value if it is non-empty, otherwise do nothing.
 
 #### `option<A>(...).get: A`
 Returns the option's value if the option is non-empty, otherwise throws an error.
 
-#### `option<A>(...).getOrElse(defaultValue: A | (() => A)): A`
-Returns the option's value if the option is non-empty, otherwise return the result of evaluating default.
+#### `option<A>(...).getOrElse(defaultValue: () => A): A`
+Returns the option's value if the option is non-empty, otherwise return the result of evaluating defaultValue.
+
+#### `option<A>(...).getOrElseValue(defaultValue: A): A`
+Returns the option's value if the option is non-empty, otherwise return the defaultValue.
 
 #### `option<A>(...).isDefined: boolean`
 Returns true if the option's value is non-empty, false otherwise.
 
 #### `option<A>(...).isEmpty: boolean`
-Returns true if the option's value is empty, false otherwise.
+Returns true if the option is an instance of `None`, false otherwise.
 
 #### `option<A>(...).map<B>(f: (_: A) => B): Option<B>`
 Builds a new option by applying a function to all elements of this option.
 
-#### `option<A>(...).match<B>(m: {some: (_: A) => B, none: () => B}): B`
+#### `option<A>(...).match<B>(matcher: { some: (_: A) => B, none: () => B }): B`
 Scala's "Pattern Match" like signature. Returns the value that the function `some` returns if the option is non-empty,
 otherwise returns the value that function `none` returns.
 
@@ -106,40 +138,14 @@ Returns true if the option is an instance of `Some`, false otherwise.
 #### `option<A>(...).orElse(alternative: () => Option<A>): Option<A>`
 Returns the option itself if it is non-empty, otherwise return the result of evaluating alternative.
 
+#### `option<A>(...).orElseValue(alternative: Option<A>): Option<A>`
+Returns the option itself if it is non-empty, otherwise return the alternative.
+
 #### `option<A>(...).orNull: A`
 Returns the option's value if it is non-empty, or null if it is empty.
 
 #### `option<A>(...).toArray: Array<A>`
 Converts the option to an array.
-
-#### `option<A>(...).forComprehension(...fns: (a: any) => Option<any>): Option<any>`
-Performs a for-comprehension *like* operation using the given list of functions. For example:
-
-```
-const nestedOptions = some({
-  anOption: some({
-    anotherOption: some({
-      finalValue: true
-    })
-  })
-});
-
-const result = nestedOptions.forComprehension(
-  obj => obj.anOption,
-  anOption => anOption.anotherOption,
-  anotherOption => anotherOption.finalValue
-);
-
-// result = option(true)
-```
-
-As with the Scala for comprehension the result of each function is flat-mapped with the next, except for the last, which is mapped.
-
-Please note that there are currently some limitations:
-
-1) Filtering must be done manually
-2) There is no shared scope between functions
-3) The result type is always `Option<any>`
 
 ### License
 MIT
