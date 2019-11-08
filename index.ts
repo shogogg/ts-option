@@ -10,7 +10,6 @@ export interface Matcher<A, B> {
 }
 
 export interface OptionLike<A> {
-
   /**
    * Returns true if the option is non-empty and the predicate p returns true when applied to the option's value.
    */
@@ -120,34 +119,49 @@ export interface OptionLike<A> {
 }
 
 export abstract class Option<A> implements OptionLike<A> {
-
   abstract exists (p: (_: A) => boolean): boolean
+
   abstract filter (p: (_: A) => boolean): Option<A>
+
   abstract filterNot (p: (_: A) => boolean): Option<A>
+
   abstract flatMap<B> (f: (_: A) => Option<B>): Option<B>
+
   abstract fold<B> (ifEmpty: () => B): (f: (_: A) => B) => B
+
   abstract forAll (p: (_: A) => boolean): boolean
+
   abstract forComprehension (...fns: ((x: any) => Option<any>)[]): Option<any>
+
   abstract forEach (f: (_: A) => void): void
+
   readonly get: A
+
   abstract getOrElse (defaultValue: () => A): A
+
   abstract getOrElseValue (defaultValue: A): A
+
   readonly isDefined: boolean
   readonly isEmpty: boolean
+
   abstract map<B> (f: (_: A) => B): Option<B>
+
   abstract match<B> (matcher: Matcher<A, B>): B
+
   readonly nonEmpty: boolean
+
   abstract orElse (alternative: () => Option<A>): Option<A>
+
   abstract orElseValue (alternative: Option<A>): Option<A>
+
   readonly orNull: A | null
   readonly toArray: A[]
-  abstract toString (): string
 
+  abstract toString (): string
 }
 
 export class Some<A> extends Option<A> implements OptionLike<A> {
-
-  constructor (private value: A) {
+  constructor (private readonly value: A) {
     super()
   }
 
@@ -238,11 +252,9 @@ export class Some<A> extends Option<A> implements OptionLike<A> {
   toString (): string {
     return 'Some(' + this.value + ')'
   }
-
 }
 
 export class None<A> extends Option<A> implements OptionLike<A> {
-
   exists (/* p: (_: A) => boolean */): boolean {
     return false
   }
@@ -326,7 +338,6 @@ export class None<A> extends Option<A> implements OptionLike<A> {
   toString (): string {
     return 'None'
   }
-
 }
 
 export function some<A> (value: A): Option<A> {
