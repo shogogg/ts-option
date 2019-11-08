@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016 shogogg <shogo@studofly.net>
+ * Copyright (c) 2019 shogogg <shogo@studofly.net>
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -202,6 +202,12 @@ describe('Some', () => {
   describe('#orNull', () => {
     it('should return the option\'s value', () => {
       expect(some(2016).orNull).toBe(2016)
+    })
+  })
+
+  describe('#orUndefined', () => {
+    it('should return the option\'s value', () => {
+      expect(some(2019).orUndefined).toBe(2019)
     })
   })
 
@@ -415,6 +421,12 @@ describe('None', () => {
   describe('#orNull', () => {
     it('should return null', () => {
       expect(none.orNull).toBeNull()
+    })
+  })
+
+  describe('#orUndefined', () => {
+    it('should return undefined', () => {
+      expect(none.orUndefined).toBeUndefined()
     })
   })
 

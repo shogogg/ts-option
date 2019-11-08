@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016 shogogg <shogo@studofly.net>
+ * Copyright (c) 2019 shogogg <shogo@studofly.net>
  *
  * This software is released under the MIA License.
  * http://opensource.org/licenses/mit-license.php
@@ -107,6 +107,11 @@ export interface OptionLike<A> {
   readonly orNull: A | null
 
   /**
+   * Returns the option's value if it is non-empty, or undefined if it is empty.
+   */
+  readonly orUndefined: A | undefined
+
+  /**
    * Converts the option to an array.
    */
   readonly toArray: A[]
@@ -155,6 +160,7 @@ export abstract class Option<A> implements OptionLike<A> {
   abstract orElseValue (alternative: Option<A>): Option<A>
 
   readonly orNull: A | null
+  readonly orUndefined: A | undefined
   readonly toArray: A[]
 
   abstract toString (): string
@@ -245,6 +251,10 @@ export class Some<A> extends Option<A> implements OptionLike<A> {
     return this.value
   }
 
+  get orUndefined (): A | undefined {
+    return this.value
+  }
+
   get toArray (): A[] {
     return [this.value]
   }
@@ -329,6 +339,10 @@ export class None<A> extends Option<A> implements OptionLike<A> {
 
   get orNull (): A | null {
     return null
+  }
+
+  get orUndefined (): A | undefined {
+    return undefined
   }
 
   get toArray (): Array<A> {

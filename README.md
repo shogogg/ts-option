@@ -141,8 +141,11 @@ Returns the option itself if it is non-empty, otherwise return the result of eva
 #### `option<A>(...).orElseValue(alternative: Option<A>): Option<A>`
 Returns the option itself if it is non-empty, otherwise return the alternative.
 
-#### `option<A>(...).orNull: A`
+#### `option<A>(...).orNull: A | null`
 Returns the option's value if it is non-empty, or null if it is empty.
+
+#### `option<A>(...).orUndefined: A | undefined`
+Returns the option's value if it is non-empty, or undefined if it is empty.
 
 #### `option<A>(...).toArray: Array<A>`
 Converts the option to an array.
