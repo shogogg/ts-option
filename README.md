@@ -4,6 +4,10 @@ Scala like `Option` type for TypeScript/JavaScript.
 
 ### Install
 ```
+# yarn
+$ yarn add ts-option
+
+# npm
 $ npm install --save ts-option
 ```
 
@@ -19,7 +23,7 @@ let b: Option<number> = option(null); // None
 let d: Option<number> = none;         // None
 ```
 
-#### JavaScript (ES2015/ES6)
+#### JavaScript (ES Modules)
 ```
 import {Option, option, some, none} from "ts-option";
 
