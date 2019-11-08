@@ -8,4 +8,5 @@ jest.config.js
 node_modules
 test
 tsconfig.json
+yarn.lock
 *.js.map
